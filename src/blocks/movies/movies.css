@@ -1,0 +1,5 @@
+.movies__content {
+    display: flex;
+    border: 1px solid green;
+    height: 100px;
+}
