@@ -54,6 +54,7 @@
     .hero {
         margin: 20px;
     }
+
     .hero__title {
         max-width: 680px;
         margin-top: 350px;
@@ -73,6 +74,7 @@
 @media all and (max-width: 450px) {
     .hero {
         margin: 0 18px;
+        margin-top: 15px;
     }
 
     .hero__title {

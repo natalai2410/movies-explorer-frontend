@@ -28,12 +28,11 @@ function App() {
     let onRegister;
     let loggedIn;
     let onProfile;
+    let authOn = true;
     return (
         // <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
                 <div className="page__content">
-                   {/*<Header/>*/}
-
                     <Switch>
                         <Route path="/signin">
                             <Login onLogin={onLogin}/>
@@ -44,17 +43,21 @@ function App() {
                         </Route>
 
                         <Route path="/profile">
-                            <Header/>
+                            <Header
+                                authOn ={true}
+                            />
                             <Profile onProfile={onProfile}/>
                         </Route>
 
                         <Route path="/movies">
-                            <Header/>
-                            {/*<Movies onProfile={onProfile}/>*/}
+                            <Header
+                                authOn ={true}/>
+                            <Movies onProfile={onProfile}/>
                         </Route>
 
                         <Route path="/landing">
-                            {/*<Header/>*/}
+                            <Header
+                                authOn ={false}/>
                             <Landing/>
                         </Route>
 
