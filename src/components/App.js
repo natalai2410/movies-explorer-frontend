@@ -1,21 +1,19 @@
-import '../index.css';
-import Header from './Header';
-import Main from './Main';
-import Footer from './Footer';
+import '../../src/components/Page/Page.css';
+import Header from './Header/Header';
+import Footer from './Footer/Footer';
 import React from "react";
 
 import ProtectedRoute from "./ProtectedRoute";
 
-import Register from "./Register";
-import Login from './Login'
+import Register from "./Register/Register";
+import Login from './Login/Login'
 import Switch from "react-router-dom/es/Switch";
 import Route from "react-router-dom/es/Route";
-
-
 import Redirect from "react-router-dom/es/Redirect";
-import Profile from "./Profile";
-import Movies from "./Movies";
-import Landing from "./Landing";
+import Profile from "./Profile/Profile";
+import Movies from "./Movies/Movies";
+import Main from "./Main/Main";
+import Preloader from "./Preloader/Preloader";
 
 
 /**
@@ -23,51 +21,39 @@ import Landing from "./Landing";
  */
 function App() {
 
-
-    let onLogin;
-    let onRegister;
     let loggedIn;
-    let onProfile;
-    let authOn = true;
     return (
         // <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
                 <div className="page__content">
                     <Switch>
+
                         <Route path="/signin">
-                            <Login onLogin={onLogin}/>
+                            <Login/>
                         </Route>
 
                         <Route path="/signup">
-                            <Register onRegister={onRegister}/>
+                            <Register/>
                         </Route>
 
                         <Route path="/profile">
                             <Header
                                 authOn ={true}
                             />
-                            <Profile onProfile={onProfile}/>
+                            <Profile onProfile/>
                         </Route>
 
                         <Route path="/movies">
                             <Header
                                 authOn ={true}/>
-                            <Movies onProfile={onProfile}/>
+                            <Movies/>
                         </Route>
 
                         <Route path="/landing">
                             <Header
                                 authOn ={false}/>
-                            <Landing/>
+                            <Main/>
                         </Route>
-
-                        {/*<Route path="/">*/}
-                        {/*    <Header title="Выйти" mail={email} onClick={onLoggedOut} route=""/>*/}
-                        {/*    <ProtectedRoute exact path="/"*/}
-                        {/*                    component={Main}*/}
-                        {/*                    LoggedIn={loggedIn}*/}
-                        {/*    />*/}
-                        {/*</Route>*/}
 
                         <Route exact path="*">
                             {loggedIn ? <Redirect to="/"/> : <Redirect to="/signin"/>}
@@ -75,8 +61,8 @@ function App() {
 
                     </Switch>
 
-                    {loggedIn && < Footer/>}
-
+                    {/*{loggedIn && < Footer/>}*/}
+                    < Footer/>
                 </div>
             </div>
         // </CurrentUserContext.Provider>

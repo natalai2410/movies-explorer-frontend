@@ -1,3 +1,7 @@
+.movies__content {
+    display: flex;
+}
+
 .search {
     margin: 70px;
     display: flex;
@@ -12,7 +16,7 @@
     width: 80%;
     display: flex;
     justify-content: space-between;
-    align-items: center ;
+    align-items: center;
 }
 
 .search__content {
