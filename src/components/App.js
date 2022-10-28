@@ -3,7 +3,7 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import React from "react";
 
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 
 import Register from "./Register/Register";
 import Login from './Login/Login'
@@ -14,6 +14,7 @@ import Profile from "./Profile/Profile";
 import Movies from "./Movies/Movies";
 import Main from "./Main/Main";
 import Preloader from "./Preloader/Preloader";
+import PageNotFound from "./PageNotFound/PageNotFound";
 
 
 /**
@@ -21,7 +22,7 @@ import Preloader from "./Preloader/Preloader";
  */
 function App() {
 
-    let loggedIn;
+    let loggedIn = false;
     return (
         // <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
@@ -47,12 +48,25 @@ function App() {
                             <Header
                                 authOn ={true}/>
                             <Movies/>
+                            < Footer/>
+                        </Route>
+
+                        <Route path="/saved-movies">
+                            <Header
+                                authOn ={true}/>
+                            <Movies/>
+                            < Footer/>
                         </Route>
 
                         <Route path="/landing">
                             <Header
                                 authOn ={false}/>
                             <Main/>
+                            < Footer/>
+                        </Route>
+
+                        <Route path="/not-found">
+                            <PageNotFound/>
                         </Route>
 
                         <Route exact path="*">
@@ -60,9 +74,7 @@ function App() {
                         </Route>
 
                     </Switch>
-
-                    {/*{loggedIn && < Footer/>}*/}
-                    < Footer/>
+                    {/*< Footer/>*/}
                 </div>
             </div>
         // </CurrentUserContext.Provider>

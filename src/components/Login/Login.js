@@ -37,7 +37,7 @@ const Login = () => {
                             <input className="form__input"
                                    type="email"
                                    placeholder="pochta@yandex.ru"
-                                   value={email}
+                                   //value={email}
                                    required
                                    onChange={handleLoginChange}
                             />
@@ -49,7 +49,7 @@ const Login = () => {
                             <input className="form__input"
                                    type="password"
                                    placeholder="pochta@yandex.ru"
-                                   value={password}
+                                   //value={password}
                                    required
                                    onChange={handleLoginPassword}
                             />

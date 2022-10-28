@@ -49,6 +49,11 @@
     transition: opacity .2s linear;
 }
 
+.header__profile-link:hover {
+    opacity: .6;
+    cursor: pointer;
+}
+
 .header__profile-link_black {
     color: black;
 }
@@ -60,6 +65,11 @@
     font-size: 13px;
     font-weight: 400;
     line-height: 18px;
+}
+
+.header__link:hover {
+    opacity: .6;
+    cursor: pointer;
 }
 
 .header__body-auth-on {

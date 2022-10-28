@@ -8,7 +8,7 @@ function Register({onRegister}) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [errors, setErrors] = useState({});
-    let isValid;
+    let isValid = true;
 
     function handleLoginChange(e) {
 
@@ -49,9 +49,9 @@ function Register({onRegister}) {
                             <input className="form__input"
                                    type="email"
                                    placeholder="pochta@yandex.ru"
-                                   value={email}
+                                   //value={email}
                                    required
-                                   onChange={handleLoginChange}
+                                    onChange={handleLoginChange}
                             />
                             <p className={`form__error ${errors.email ? 'form__error-display' : ''}`}>{errors.email}</p>
                         </label>
@@ -60,9 +60,9 @@ function Register({onRegister}) {
                             <input className="form__input"
                                    type="password"
                                    placeholder="pochta@yandex.ru"
-                                   value={password}
+                                   //value={password}
                                    required
-                                   onChange={handleLoginPassword}
+                                    onChange={handleLoginPassword}
                             />
                             <p className={`form__error ${errors.password ? 'form__error-display' : ''}`}>{errors.password}</p>
                         </label>
@@ -71,7 +71,7 @@ function Register({onRegister}) {
                             disabled={!isValid ? true : ''}>Войти
                     </button>
                     <p className="form__text">Уже зарегистрированы?
-                        <Link to="/signup" className="form__link">Зарегистрироваться</Link>
+                        <Link to="/signin" className="form__link">Войти</Link>
                     </p>
                 </form>
             </div>

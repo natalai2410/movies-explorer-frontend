@@ -27,7 +27,6 @@ function Profile({onProfile}) {
                   onSubmit={handleSubmit}>
                 <h3 className="profile__title">Привет, Виталий!</h3>
                 <div className="profile__inputs">
-
                     <p className="profile__text">Имя</p>
                     <div className="profile__area profile__area_name">
                         <input className="profile__settings"

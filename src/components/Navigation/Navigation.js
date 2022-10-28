@@ -10,10 +10,10 @@ function Navigation(props) {
                     <Link to="/" className="navigation__link">Главная</Link>
                 </li>
                 <li className="">
-                    <div className="navigation__link">Фильмы</div>
+                    <Link to="/movies" className="navigation__link">Фильмы</Link>
                 </li>
                 <li className="">
-                    <div className="navigation__link">Сохранённые фильмы</div>
+                    <Link to="/saved-movies" className="navigation__link">Сохранённые фильмы</Link>
                 </li>
             </ul>
             <button className="navigation__profile-button" type="button" onClick={props.onClick}>

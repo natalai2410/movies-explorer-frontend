@@ -1,7 +1,6 @@
 import './SearchForm.css';
 import React, {useEffect, useState} from 'react';
-import ico1 from "../../images/icon__CCOLOR_icon-2.svg";
-import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import searchIco from "../../images/icon__CCOLOR_icon-2.svg";
 
 const SearchForm = () => {
 
@@ -21,15 +20,14 @@ const SearchForm = () => {
     }
 
     return (
-        <div className="movies__content">
+        <div className="movies">
             <form className="search">
                 <div className="search__content">
                     <div className="search__string-content">
-                        <img className="search__ico" src={ico1}  alt="логотип"></img>
+                        <img className="search__ico" src={searchIco}  alt="логотип"></img>
                         <input className="search__input" placeholder="Фильм" type="text" value={inputSearch || ''} onChange={handleInputChange} required />
                         <button type="submit" className="search__button" onClick={handleSubmit}></button>
                     </div>
-
                     <div className="search__toggle">
                         <label className="search__tumbler">
                             <input className="search__checkbox" type="checkbox" onChange={handleSwitchChange} />
