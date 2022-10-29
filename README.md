@@ -4,3 +4,4 @@
 
 
 Резервная  ссылка на фигму https://www.figma.com/file/CYvKtvTP92jjxlAIQcFB2V/Diploma-(Copy)..fig.?node-id=932%3A2618
+z
