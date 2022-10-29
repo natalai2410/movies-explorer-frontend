@@ -4,9 +4,10 @@
     display: flex;
     width: 100%;
     justify-content: center;
+    padding-inline-start: 0;
 }
 
-.nav-tab__button {
+.nav-tab__link {
     margin: 0 4px;
     display: flex;
     justify-content: center;
@@ -31,7 +32,7 @@
 }
 
 @media all and (max-width: 767px) {
-    .nav-tab__button {
+    .nav-tab__link {
         margin: 0 5px;
     }
 
@@ -46,7 +47,7 @@
         margin-bottom: 17px
     }
 
-    .nav-tab__button {
+    .nav-tab__link {
         margin: 0 2px;
         width: 82px;
         height: 26px;

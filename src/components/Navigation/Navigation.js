@@ -1,8 +1,8 @@
-import React from "react";
 import './Navigation.css';
-import {Link} from "react-router-dom";
+import {Link, NavLink} from 'react-router-dom';
 
-function Navigation(props) {
+const Navigation = (props) => {
+
     return (
         <nav className={`navigation__menu ${props.showItems ? "navigation__menu_active" : ""}`}>
             <ul className="navigation__list">
@@ -17,10 +17,10 @@ function Navigation(props) {
                 </li>
             </ul>
             <button className="navigation__profile-button" type="button" onClick={props.onClick}>
-                <Link to="/" className="navigation__profile-link">Аккаунт</Link>
+                <Link to="/profile" className="navigation__profile-link">Аккаунт</Link>
             </button>
         </nav>
     );
-}
+};
 
 export default Navigation;

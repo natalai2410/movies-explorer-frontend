@@ -1,12 +1,13 @@
 .about-project {
     padding: 104px 0;
     background-color: #202020;
-    margin: 0 40px;
+    margin: 0 70px;
 }
 
 .about-project__content {
     display: flex;
     margin-top: 70px;
+    padding-inline-start: 0;
 }
 
 .stage-table__title {
@@ -24,6 +25,10 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
+}
+
+.about-project__stage-table {
+    list-style-type: none;
 }
 
 .about-project__stage-table:first-of-type {

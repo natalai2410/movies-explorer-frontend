@@ -1,3 +1,4 @@
+
 .navigation__container {
     display: flex;
     width: 100%;
@@ -125,7 +126,7 @@
         right: 0;
         width: 67%;
         height: 100%;
-        background-color: #424242;
+        background-color: #202020;
         z-index: 1;
         padding-top: 70px;
         display: none;
@@ -215,10 +216,8 @@
 
     .navigation__profile-button {
         position: fixed;
-        left: 55.5%;
+        left: 35.5%;
         bottom: 0;
-        margin-bottom: 35px;
     }
 
 }
-

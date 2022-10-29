@@ -20,9 +20,9 @@ const AboutMe = () => {
                         написанием сайтов отдела.
                     </p>
                     <ul className="about-me__links">
-                        <li><a className="about-me__link" href="src/components/Main/Main" target="_blank"
+                        <li><a className="about-me__link" href="src/components/Main/Main.js" target="_blank"
                                rel="noreferrer">Facebook</a></li>
-                        <li><a className="about-me__link" href="src/components/Main/Main" target="_blank"
+                        <li><a className="about-me__link" href="src/components/Main/Main.js" target="_blank"
                                rel="noreferrer">Github</a></li>
                     </ul>
                 </div>

@@ -20,7 +20,7 @@ const SearchForm = () => {
     }
 
     return (
-        <div className="movies">
+        <section className="movies">
             <form className="search">
                 <div className="search__content">
                     <div className="search__string-content">
@@ -37,7 +37,7 @@ const SearchForm = () => {
                     </div>
                 </div>
             </form>
-        </div>
+        </section>
     );
 };
 

@@ -1,7 +1,7 @@
 import '../../src/components/Page/Page.css';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
-import React from "react";
+import React, {useState} from "react";
 
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 
@@ -12,9 +12,10 @@ import Route from "react-router-dom/es/Route";
 import Redirect from "react-router-dom/es/Redirect";
 import Profile from "./Profile/Profile";
 import Movies from "./Movies/Movies";
-import Main from "./Main/Main";
 import Preloader from "./Preloader/Preloader";
 import PageNotFound from "./PageNotFound/PageNotFound";
+import {useLocation} from "react-router-dom";
+import Main from "./Main/Main";
 
 
 /**
@@ -22,62 +23,46 @@ import PageNotFound from "./PageNotFound/PageNotFound";
  */
 function App() {
 
+    const [showItems, setShowItems] = useState(false);
+    const handleToggleMenu = () => setShowItems(!showItems);
+    const {pathname} = useLocation();
     let loggedIn = false;
     return (
-        // <CurrentUserContext.Provider value={currentUser}>
-            <div className="page">
-                <div className="page__content">
+        <div className={`page ${showItems ? 'page_background-black' : ''}`}>
+            <div className="page__content">
+                {pathname === '/movies' || pathname === '/saved-movies' || pathname === '/profile' || pathname === '/landing' ?
+                    <Header
+                        authOn={pathname === '/landing' ? false : true} //
+                        showItems={showItems}
+                        handleToggleMenu={handleToggleMenu}
+                    /> : ''}
+
+                <main>
                     <Switch>
+                        <Route path="/signin"><Login/></Route>
 
-                        <Route path="/signin">
-                            <Login/>
-                        </Route>
+                        <Route path="/signup"><Register/></Route>
 
-                        <Route path="/signup">
-                            <Register/>
-                        </Route>
+                        <Route path="/profile"><Profile/></Route>
 
-                        <Route path="/profile">
-                            <Header
-                                authOn ={true}
-                            />
-                            <Profile onProfile/>
-                        </Route>
+                        <Route path="/movies"><Movies/></Route>
 
-                        <Route path="/movies">
-                            <Header
-                                authOn ={true}/>
-                            <Movies/>
-                            < Footer/>
-                        </Route>
+                        <Route path="/saved-movies"><Movies/></Route>
 
-                        <Route path="/saved-movies">
-                            <Header
-                                authOn ={true}/>
-                            <Movies/>
-                            < Footer/>
-                        </Route>
-
-                        <Route path="/landing">
-                            <Header
-                                authOn ={false}/>
-                            <Main/>
-                            < Footer/>
-                        </Route>
-
-                        <Route path="/not-found">
-                            <PageNotFound/>
-                        </Route>
+                        <Route path="/landing"><Main/></Route>
 
                         <Route exact path="*">
                             {loggedIn ? <Redirect to="/"/> : <Redirect to="/landing"/>}
                         </Route>
 
+                        <Route path="/not-found"><PageNotFound/></Route>
                     </Switch>
-                    {/*< Footer/>*/}
-                </div>
+                </main>
+
+                {pathname === '/movies' || pathname === '/saved-movies' || pathname === '/landing' ?
+                    < Footer/> : ''}
             </div>
-        // </CurrentUserContext.Provider>
+        </div>
     );
 }
 
