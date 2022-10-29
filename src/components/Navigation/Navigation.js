@@ -17,7 +17,7 @@ function Navigation(props) {
                 </li>
             </ul>
             <button className="navigation__profile-button" type="button" onClick={props.onClick}>
-                <Link to="/" className="navigation__profile-link">Аккаунт</Link>
+                <Link to="/profile" className="navigation__profile-link">Аккаунт</Link>
             </button>
         </nav>
     );

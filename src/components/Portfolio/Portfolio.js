@@ -3,22 +3,39 @@ import './Portfolio.css';
 
 const Portfolio = (props) => {
     return (
-        <div className="portfolio">
+        <section className="portfolio">
             <h4 className="portfolio__title">Портфолио</h4>
-            <div className="portfolio__item">
-                <a className="portfolio__site" href="https://github.com/natalai2410/how-to-learn">Статичный сайт</a>
-                <div className="portfolio__arrow">↗</div>
-            </div>
-            <div className="portfolio__item">
-                <a className="portfolio__site" href="src/components/Main/Main" target="_blank" rel="noreferrer" >Адаптивный сайт</a>
-                <div className="portfolio__arrow">↗
-                </div>
-            </div>
-            <div className="portfolio__item">
-                <a className="portfolio__site" href="src/components/Main/Main" target="_blank" rel="noreferrer">Одностраничное приложение</a>
-                <div className="portfolio__arrow">↗</div>
-            </div>
-        </div>
+            <ul className="portfolio__links">
+                <li className="portfolio__link">
+                    <a className="portfolio__item"
+                       href="https://github.com/natalai2410/how-to-learn"
+                       target="_blank"
+                       rel="noreferrer">
+                        <p className="portfolio__site">Статичный сайт</p>
+                        <div className="portfolio__arrow">↗</div>
+                    </a>
+                </li>
+                <li className="portfolio__link">
+                    <a className="portfolio__item"
+                       href="https://natalai2410.github.io/russian-travel/"
+                       target="_blank"
+                       rel="noreferrer">
+                        <p className="portfolio__site">Адаптивный сайт</p>
+                        <div className="portfolio__arrow">↗
+                        </div>
+                    </a>
+                </li>
+                <li className="portfolio__link">
+                    <a className="portfolio__item"
+                       href="https://zvyagina.students.nomoredomains.club"
+                       target="_blank"
+                       rel="noreferrer">
+                        <p className="portfolio__site">Одностраничное приложение</p>
+                        <div className="portfolio__arrow">↗</div>
+                    </a>
+                </li>
+            </ul>
+        </section>
     );
 }
 

@@ -2,6 +2,10 @@
     background-color: #202020;
 }
 
+.page_background-black{
+    background-color: #000000;
+}
+
 .page__content {
     font-family: 'Inter', Arial, sans-serif;
     margin: 0 auto;

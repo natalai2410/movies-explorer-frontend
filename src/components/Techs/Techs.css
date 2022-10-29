@@ -103,6 +103,7 @@
 @media all and (max-width: 450px) {
     .techs {
         padding: 70px 0;
+        background-color: #202020;
     }
 
     .techs__title {
