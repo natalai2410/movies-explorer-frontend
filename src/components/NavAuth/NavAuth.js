@@ -1,10 +1,9 @@
-
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import headerLogo from '../../images/header_logo.svg';
 
 
 function NavAuth(props) {
-    return <section className={`header__body-auth-off ${props.authOn ? "" : "header__body-auth-off_active"}`}>
+    return <nav className={`header__body-auth-off ${props.authOn ? "" : "header__body-auth-off_active"}`}>
         <Link to="/landing" className="header__link">
             <img className="header__logo header__logo_auth-off" src={headerLogo} alt="логотип"/>
         </Link>
@@ -18,7 +17,7 @@ function NavAuth(props) {
                 </button>
             </li>
         </ul>
-    </section>;
+    </nav>;
 }
 
 export default NavAuth;

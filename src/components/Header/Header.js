@@ -1,6 +1,5 @@
-
 import './Header.css';
-import { Link, useLocation } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import headerLogo from '../../images/header_logo.svg';
 import NavAuth from '../NavAuth/NavAuth';
 import Navigation from '../Navigation/Navigation';
@@ -12,7 +11,6 @@ const Header = (props) => {
                 <Link to="/landing" className="header__link">
                     <img className="header__logo header__logo_auth-off" src={headerLogo} alt="логотип"/>
                 </Link>
-                
                 <div className="header__container">
                     <Navigation showItems={props.showItems} onClick={props.handleToggleMenu}/>
                 </div>
