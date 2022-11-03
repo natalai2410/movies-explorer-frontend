@@ -52,11 +52,13 @@ function App() {
 
     const jwt = localStorage.getItem('jwt');
 
+
     React.useEffect(() => {
         const tokenCheck = (jwt) => {
             mainApi.getContent(jwt)
                 .then((res) => {
                     if (res) {
+                        setCurrentUser(res);
                         setLoggedIn(true);
                         history.push('/movies')
 
@@ -142,6 +144,7 @@ function App() {
                         <ProtectedRoute
                             path="/profile"
                             loggedIn={loggedIn}
+                            onLoggedOut = {onLoggedOut}
                             component={Profile}
                         />
 

@@ -74,7 +74,7 @@ class MainApi {
     }
 
 
-    register( { name, email, password }) {
+    register({name, email, password}) {
         return fetch(`${this._baseUrl}/signup`, {
             method: 'POST',
             headers: {
@@ -107,15 +107,25 @@ class MainApi {
         })
             .then(this._returnResult);
     };
+    
 
-    getUserInfo() {
+    sendUserInfo({name, email}) {
         return fetch(`${this._baseUrl}/users/me`, {
-            method: 'GET',
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-            'Content-Type': 'application/json',
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+            })
         })
-            .then(this._returnResult);
-    }
+            .then(result => {
+                return this._returnResult(result);
+            })
+    };
 
 
 }
