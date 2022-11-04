@@ -4,7 +4,7 @@ import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import mainApi from "../../utils/MainApi";
 import isEmail from "validator/es/lib/isEmail";
 
-function Profile({ onLoggedOut , isOpenPopup }) {
+function Profile({ onLoggedOut , openPopup }) {
 
     const currentUser = useContext(CurrentUserContext);
 
@@ -46,10 +46,10 @@ function Profile({ onLoggedOut , isOpenPopup }) {
             .then(() => {
             setLastName(name);
             setLastEmail(email);
-            console.log('Данные успешно изменены')
+            openPopup('Данные успешно изменены!', true);
         })
             .catch((err) => {
-                console.log(`Упс...Что-то пошло не так! ${err}`)
+                openPopup(`Упс...Что-то пошло не так! ${err}`, false);
             });
     }
 
