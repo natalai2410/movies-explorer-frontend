@@ -41,7 +41,6 @@ function App() {
     const Route = require("react-router-dom").Route;
     const Switch = require("react-router-dom").Switch;
 
-
     const [showItems, setShowItems] = useState(false);
     const handleToggleMenu = () => setShowItems(!showItems);
     const {pathname} = useLocation();
@@ -56,6 +55,8 @@ function App() {
     const [currentUser, setCurrentUser] = useState({});
 
     const jwt = localStorage.getItem('jwt');
+
+    const [isLoading, setIsLoading] = React.useState(false);
 
 
     React.useEffect(() => {
@@ -174,6 +175,7 @@ function App() {
                                 loggedIn={loggedIn}
                                 component={Movies}
                                 openPopup = {openPopup}
+                                isLoading={isLoading}
                             />
 
                             <ProtectedRoute

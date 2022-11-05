@@ -3,14 +3,18 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
+import Preloader from "../Preloader/Preloader";
 
 
-function Movies({openPopup}) {
+function Movies({openPopup, isLoading}) {
 
     const [films, setFilms] = useState(null);
     const [filmsInputSearch, setFilmsInputSearch] = useState('');
     const [filmsSaved, setFilmsSaved] = useState([]);
-    
+
+    const [preloader, setPreloader] = useState(false);
+    const [error, setError] = useState(false);
+
     async function onBookmarkClick(film, isAdded) {
         if (isAdded) {
             const jsonFilm = {
@@ -43,7 +47,7 @@ function Movies({openPopup}) {
             }
         }
     }
-    
+
     useEffect(() => {
         // массив найденных фильмом из локал сторадж
         const localStorageFilms = localStorage.getItem('films');
@@ -60,11 +64,13 @@ function Movies({openPopup}) {
 
         if (localStorageFilms) {
             setFilms(JSON.parse(localStorageFilms));
+            setPreloader(false);
         }
 
         if (localStorageFilmsInputSearch) {
             setFilmsInputSearch(localStorageFilmsInputSearch);
         }
+
     }, [openPopup]);
 
     //событие  нажатия на  поиск
@@ -72,8 +78,12 @@ function Movies({openPopup}) {
 
         if (!filmsInputSearch) {
             openPopup('Введите ключевое слово и повторите  поиск!', false)
+            setError(true);
             return false;
         }
+
+        setError(false);
+        setPreloader(true);
 
         try {
             const filmsArray = await moviesApi.getMovies();
@@ -95,9 +105,13 @@ function Movies({openPopup}) {
         } catch (err) {
             openPopup(`Во время запроса произошла ошибка.       Попробуйте позже.`, false);
             setFilms([]);
+            setError(true);
             localStorage.removeItem('films');
             localStorage.removeItem('filmsInputSearch');
         }
+        finally {
+        setPreloader(false);
+    }
     }
 
     return (
@@ -106,13 +120,15 @@ function Movies({openPopup}) {
                 handleGetMovies={handleGetMovies}
                 filmsInputSearch={filmsInputSearch}/>
 
-            {/*{!(films == null) && filmsSaved !== null && (*/}
+            {preloader && <Preloader />}
+
+            {!preloader && !error && films !== null && filmsSaved !== null  && (
                 <MoviesCardList
                     films={films}
                     onBookmarkClick={onBookmarkClick}
                     filmsSaved={filmsSaved}
                 />
-            {/*)}*/}
+            )}
         </section>
     );
 }
