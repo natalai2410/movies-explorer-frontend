@@ -92,7 +92,7 @@ class MainApi {
     }
 
     deleteMovies(movieId) {
-        return fetch(`${this._address}/movies/${movieId}`, {
+        return fetch(`${this._baseUrl}/movies/${movieId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

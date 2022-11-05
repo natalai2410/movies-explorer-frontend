@@ -83,24 +83,12 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 function MoviesCardList({
                             films,
                             onBookmarkClick,
-                            isMovieAdded,
+                            filmsSaved,
 }) {
     const { pathname } = useLocation();
 
     return (
         <section className="cards">
-
-            {/*<ul className="cards__list">*/}
-            {/*    {films.map((film) => (*/}
-            {/*        <MoviesCard*/}
-            {/*            key={film.id || film.movieId}*/}
-            {/*            film={film}*/}
-            {/*            // onBookmarkClick = {onBookmarkClick}*/}
-            {/*            // savedMovies = {savedMovies}*/}
-            {/*            // isMovieAdded = {isMovieAdded}*/}
-            {/*        />*/}
-            {/*    ))}*/}
-            {/*</ul>*/}
 
             { !(films == null) ? (
                  (films.length > 0)  ? (
@@ -109,8 +97,8 @@ function MoviesCardList({
                     <MoviesCard
                         key={film.id || film.movieId}
                         film={film}
-                        isMovieAdded={isMovieAdded}
                         onBookmarkClick={onBookmarkClick}
+                        filmsSaved={filmsSaved}
                     />
                 ))}
             </ul>
@@ -122,6 +110,7 @@ function MoviesCardList({
             {/*        </div>*/}
             {/*    )*/}
             {/*}*/}
+
         </section>
     );
 }

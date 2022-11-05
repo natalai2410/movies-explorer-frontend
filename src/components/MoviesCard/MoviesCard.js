@@ -3,26 +3,40 @@ import './MoviesCard.css';
 import {useLocation} from "react-router-dom";
 
 
-// filmsSavedArr - массив сохраненных фильмов
-
-function MoviesCard({film, onBookmarkClick, isMovieAdded}) {
+function MoviesCard({film, onBookmarkClick, filmsSaved}) {
     const {pathname} = useLocation();
+    const [isAdded, setIsAdded] = useState(false);
 
 
     function calcDurationMins(mins) {
         return `${Math.floor(mins / 60)} ч ${mins % 60} м`;
     }
 
-    const isAdded = isMovieAdded(film);
-
-    const handleBookmarkClick = (e) => {
-        e.preventDefault();
-        onBookmarkClick(film, !isAdded);
-    };
+    function handleBookmarkClick() {
+        const newFavorite = !isAdded;
+        const savedFilmArr = filmsSaved.filter((obj) => {
+            return obj.movieId == film.id;
+        });
+        onBookmarkClick({...film, _id: savedFilmArr.length > 0 ? savedFilmArr[0]._id : null}, newFavorite);
+    }
 
     const removeHandler = () => {
         onBookmarkClick(film, false);
     };
+
+    useEffect(() => {
+        if (pathname !== '/saved-movies') {
+            const savedFilm = filmsSaved.filter((obj) => {
+                return obj.movieId == film.id;
+            });
+
+            if (savedFilm.length > 0) {
+                setIsAdded(true);
+            } else {
+                setIsAdded(false);
+            }
+        }
+    }, [pathname, filmsSaved, film.id]);
 
     return (
         <li className="card">
