@@ -63,6 +63,46 @@ class MainApi {
                 return this._returnResult(result);
             })
     };
+
+    getMovies() {
+        return fetch(`${this._baseUrl}/movies`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        })
+            .then(result => {
+            return this._returnResult(result);
+        })
+    }
+
+    addMovies(data) {
+        return fetch(`${this._baseUrl}/movies`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
+            body: JSON.stringify(data),
+        })
+            .then(result => {
+            return this._returnResult(result);
+        })
+    }
+
+    deleteMovies(movieId) {
+        return fetch(`${this._address}/movies/${movieId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        })
+            .then(result => {
+            return this._returnResult(result);
+        })
+    }
 }
 
 const mainApi = new MainApi({

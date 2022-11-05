@@ -84,12 +84,10 @@ function App() {
     function onRegister(name, email, password) {
         MainApi.register(name, email, password)
             .then((res) => {
-                if (res._id) {
-                    setIsOpenPopup(true);
-                    setPopupImage(success);
-                    setPopupTitle("Вы успешно зарегистрировались");
-                    history.push('/signin')
-                }
+                setIsOpenPopup(true);
+                setPopupImage(success);
+                setPopupTitle("Вы успешно зарегистрировались");
+                history.push('/signin')
             })
             .catch((err) => {
                 setIsOpenPopup(true);
