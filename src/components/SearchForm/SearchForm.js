@@ -25,7 +25,9 @@ const SearchForm = ({handleGetMovies, filmsInputSearch, handleGetFilmsSwitch, fi
     useEffect(() => {
         setInputSearch(filmsInputSearch);
         setSwitchSearch(filmsSwitch);
+
     }, [filmsInputSearch, filmsSwitch]);
+
 
     return (
         <section className="movies">
@@ -43,7 +45,7 @@ const SearchForm = ({handleGetMovies, filmsInputSearch, handleGetFilmsSwitch, fi
                     </div>
                     <div className="search__toggle">
                         <label className="search__tumbler">
-                            <input className="search__checkbox" type="checkbox" onChange={handleSwitchChange} />
+                            <input className="search__checkbox" type="checkbox" onChange={handleSwitchChange} value={switchSearch}  checked={switchSearch} />
                             <span className="search__slider" />
                         </label>
                         <p className="search__films">Короткометражки</p>

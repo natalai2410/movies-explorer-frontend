@@ -53,9 +53,10 @@ function Movies({openPopup, isLoading}) {
     }
 
     useEffect(() => {
-        // массив найденных фильмом из локал сторадж
+        const checkbox = localStorage.getItem('filmsSwitch');
+        setFilmsSwitch(checkbox === 'true');
+
         const localStorageFilms = localStorage.getItem('films');
-        // строка поиска из локал сторадж
         const localStorageFilmsInputSearch = localStorage.getItem('filmsInputSearch');
 
         mainApi.getMovies()
@@ -77,12 +78,18 @@ function Movies({openPopup, isLoading}) {
 
     }, [openPopup]);
 
+
+    useEffect(() => {
+        const checkbox = localStorage.getItem('filmsSwitch');
+        setFilmsSwitch(checkbox === 'false');
+    }, [filmsSwitch]);
+
+
     async function handleGetFilmsSwitch() {
         setFilmsSwitch(!filmsSwitch);
-        //localStorage.setItem('filmsSwitch', filmsSwitch);
+        localStorage.setItem('filmsSwitch', filmsSwitch);
     }
 
-    //событие  нажатия на  поиск
     async function handleGetMovies(filmsInputSearch) {
 
         if (!filmsInputSearch) {
@@ -101,7 +108,12 @@ function Movies({openPopup, isLoading}) {
 
 
             if (filmsFilter.length > 0) {
-                openPopup('Найдено фильмов: ' + filmsFilter.length, true)
+                if (filmsSwitch) {
+                    openPopup('Найдено фильмов: ' + filmsFilter.length, true)
+                }
+                else {
+                    openPopup('Найдено короткометражек: ' + filterShortFilm(films).length, true)
+                }
             } else {
                 openPopup('Ничего не найдено', false)
             }
@@ -109,7 +121,9 @@ function Movies({openPopup, isLoading}) {
             //текст запроса, найденные фильмы и состояние переключателя короткометражек сохраняются в хранилище
             localStorage.setItem('films', JSON.stringify(filmsFilter)); // найденные фильмы
             localStorage.setItem('filmsInputSearch', filmsInputSearch);    //текст запроса,
-            //ДОБАВИТЬ состояние переключателя короткометражек
+            localStorage.setItem('filmsSwitch', filmsSwitch);    //переключатель,
+            console.log(localStorage.getItem(filmsSwitch))
+
 
         } catch (err) {
             openPopup(`Во время запроса произошла ошибка.       Попробуйте позже.`, false);
@@ -117,6 +131,7 @@ function Movies({openPopup, isLoading}) {
             setError(true);
             localStorage.removeItem('films');
             localStorage.removeItem('filmsInputSearch');
+            localStorage.removeItem('filmsSwitch');
         }
         finally {
         setPreloader(false);
@@ -136,7 +151,7 @@ function Movies({openPopup, isLoading}) {
 
             {!preloader && !error && films !== null && filmsSaved !== null  && (
                 <MoviesCardList
-                    films={filmsSwitch ? filterShortFilm(films) : films}
+                    films={filmsSwitch ? films : filterShortFilm(films)}
                     onBookmarkClick={onBookmarkClick}
                     filmsSaved={filmsSaved}
                 />
