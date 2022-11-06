@@ -182,6 +182,8 @@ function App() {
                                 path="/saved-movies"
                                 loggedIn={loggedIn}
                                 component={SavedMovies}
+                                openPopup = {openPopup}
+                                isLoading={isLoading}
                             />
 
 
