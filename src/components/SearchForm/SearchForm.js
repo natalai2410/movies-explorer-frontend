@@ -2,7 +2,7 @@ import './SearchForm.css';
 import React, {useEffect, useState} from 'react';
 import searchIco from "../../images/icon__CCOLOR_icon-2.svg";
 
-const SearchForm = ({handleGetMovies, filmsInputSearch}) => {
+const SearchForm = ({handleGetMovies, filmsInputSearch, handleGetFilmsSwitch, filmsSwitch }) => {
 
     const [switchSearch, setSwitchSearch] = useState(false);
     const [inputSearch, setInputSearch] = useState('');
@@ -12,7 +12,8 @@ const SearchForm = ({handleGetMovies, filmsInputSearch}) => {
     }
 
     function handleSwitchChange(e) {
-        const newSwitchSearch = !switchSearch;
+        setSwitchSearch(!switchSearch);
+        handleGetFilmsSwitch(switchSearch);
     }
 
     function handleSubmit(e) {
@@ -23,7 +24,8 @@ const SearchForm = ({handleGetMovies, filmsInputSearch}) => {
 
     useEffect(() => {
         setInputSearch(filmsInputSearch);
-    }, [filmsInputSearch]);
+        setSwitchSearch(filmsSwitch);
+    }, [filmsInputSearch, filmsSwitch]);
 
     return (
         <section className="movies">

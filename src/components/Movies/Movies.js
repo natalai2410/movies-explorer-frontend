@@ -15,6 +15,10 @@ function Movies({openPopup, isLoading}) {
     const [preloader, setPreloader] = useState(false);
     const [error, setError] = useState(false);
 
+    const [filmsSwitch, setFilmsSwitch] = useState(false);
+
+    const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration <= 40);
+
     async function onBookmarkClick(film, isAdded) {
         if (isAdded) {
             const jsonFilm = {
@@ -73,6 +77,11 @@ function Movies({openPopup, isLoading}) {
 
     }, [openPopup]);
 
+    async function handleGetFilmsSwitch() {
+        setFilmsSwitch(!filmsSwitch);
+        //localStorage.setItem('filmsSwitch', filmsSwitch);
+    }
+
     //событие  нажатия на  поиск
     async function handleGetMovies(filmsInputSearch) {
 
@@ -118,13 +127,16 @@ function Movies({openPopup, isLoading}) {
         <section>
             <SearchForm
                 handleGetMovies={handleGetMovies}
-                filmsInputSearch={filmsInputSearch}/>
+                filmsInputSearch={filmsInputSearch}
+                handleGetFilmsSwitch = {handleGetFilmsSwitch}
+                filmsSwitch = {filmsSwitch}
+            />
 
             {preloader && <Preloader />}
 
             {!preloader && !error && films !== null && filmsSaved !== null  && (
                 <MoviesCardList
-                    films={films}
+                    films={filmsSwitch ? filterShortFilm(films) : films}
                     onBookmarkClick={onBookmarkClick}
                     filmsSaved={filmsSaved}
                 />
