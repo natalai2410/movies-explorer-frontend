@@ -71,8 +71,8 @@ function App() {
                     }
                 })
                 .catch((err) => {
-                    //setIsOpenPopup(true);
-                    //setPopupTitle('error tokenCheck ' + err);
+                    setIsOpenPopup(true);
+                    setPopupTitle('error tokenCheck ' + err);
                 });
         };
 
@@ -103,7 +103,6 @@ function App() {
         MainApi.authorize(email, password)
             .then((res) => {
                 localStorage.setItem("jwt", res.token);
-                console.log(res.token);
 
                 setIsOpenPopup(true);
                 setPopupImage(success);
@@ -128,6 +127,7 @@ function App() {
         localStorage.removeItem('films');
         localStorage.removeItem('filmsInputSearch');
         localStorage.removeItem('filmsSwitch');
+
     };
 
     function openPopup(textError, status) {

@@ -73,13 +73,13 @@ function SavedMovies({openPopup}) {
             let filmsFilter = filmsArray.filter(({nameRU}) => nameRU.toLowerCase().includes(filmsInputSearch.toLowerCase()));
 
 
-            if (filmsFilter.length > 0 ) {
+            if ( filmsFilter.length > 0) {
                 if (filmsSwitch) {
-                    //openPopup('Найдено фильмов: ' + filmsFilter.length, true)
+                    openPopup('Найдено фильмов: ' + filmsFilter.length, true)
                 }
 
                 if (!filmsSwitch) {
-                    //openPopup('Найдено фильмов: ' + filterShortFilm(filmsFilter).length, true)
+                    openPopup('Найдено фильмов: ' + filterShortFilm(filmsFilter).length, true)
                 }
 
                 setFilmsArr(filmsFilter);

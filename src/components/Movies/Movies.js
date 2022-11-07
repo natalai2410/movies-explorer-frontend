@@ -15,7 +15,7 @@ function Movies({openPopup, isLoading}) {
     const [preloader, setPreloader] = useState(false);
     const [error, setError] = useState(false);
 
-    const [filmsSwitch, setFilmsSwitch] = useState(false);
+    const [filmsSwitch, setFilmsSwitch] = useState(true);
 
     const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration <= 40);
 
