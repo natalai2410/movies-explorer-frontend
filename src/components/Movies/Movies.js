@@ -19,7 +19,7 @@ function Movies({openPopup, isLoading}) {
 
     const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration <= 40);
 
-    async function onBookmarkClick(film, isAdded) {
+    async function onBookmarkClick(film,isAdded) {
         if (isAdded) {
             const jsonFilm = {
                 image: 'https://api.nomoreparties.co' + film.image.url,
@@ -38,6 +38,7 @@ function Movies({openPopup, isLoading}) {
                 await mainApi.addMovies(jsonFilm);
                 const newSaved = await mainApi.getMovies();
                 setFilmsSaved(newSaved);
+
             } catch {
                 openPopup(`Ошибка добавления фильма!`, false);
             }
@@ -107,13 +108,15 @@ function Movies({openPopup, isLoading}) {
                 nameRU.toLowerCase().includes(filmsInputSearch.toLowerCase()));
 
 
-            if (filmsFilter.length > 0) {
+            if (filmsFilter.length > 0 ) {
                 if (filmsSwitch) {
                     openPopup('Найдено фильмов: ' + filmsFilter.length, true)
                 }
-                else {
-                    openPopup('Найдено короткометражек: ' + filterShortFilm(films).length, true)
+
+                if (!filmsSwitch) {
+                    openPopup('Найдено фильмов: ' + filterShortFilm(filmsFilter).length, true)
                 }
+
             } else {
                 openPopup('Ничего не найдено', false)
             }
@@ -122,8 +125,6 @@ function Movies({openPopup, isLoading}) {
             localStorage.setItem('films', JSON.stringify(filmsFilter)); // найденные фильмы
             localStorage.setItem('filmsInputSearch', filmsInputSearch);    //текст запроса,
             localStorage.setItem('filmsSwitch', filmsSwitch);    //переключатель,
-            console.log(localStorage.getItem(filmsSwitch))
-
 
         } catch (err) {
             openPopup(`Во время запроса произошла ошибка.       Попробуйте позже.`, false);

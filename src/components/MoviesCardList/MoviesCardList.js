@@ -3,7 +3,7 @@ import './MoviesCardList.css';
 import {useLocation} from "react-router-dom";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function MoviesCardList({films, onBookmarkClick, filmsSaved}) {
+function MoviesCardList({films, onBookmarkClick, filmsSaved, isMovieAdded}) {
 
     const MOBILE_WIDTH = 480;
     const TABLET_WIDTH = 768;
@@ -68,6 +68,7 @@ function MoviesCardList({films, onBookmarkClick, filmsSaved}) {
                                 film={film}
                                 onBookmarkClick={onBookmarkClick}
                                 filmsSaved={filmsSaved}
+                                isMovieAdded={isMovieAdded}
                             />
                         ))}
                     </ul>

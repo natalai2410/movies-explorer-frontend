@@ -14,17 +14,17 @@ function SavedMovies({openPopup}) {
     const [preloader, setPreloader] = useState(false);
     const [error, setError] = useState(false);
 
-    const [filmsSwitch, setFilmsSwitch] = useState(false);
+    const [filmsSwitch, setFilmsSwitch] = useState(true);
 
     const [deleteClick, setDeleteClick,] = useState(false);
 
     const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration <= 40);
 
-    async function onBookmarkClick(film, isDelete) {
+    async function onBookmarkClick(film) {
         try {
             await mainApi.deleteMovies(film._id);
             const newSaved = await mainApi.getMovies();
-            setDeleteClick(!isDelete)
+            setDeleteClick(!deleteClick)
             setFilmsSaved(newSaved);
 
         } catch (err) {
@@ -44,13 +44,9 @@ function SavedMovies({openPopup}) {
 
 
     useEffect(() => {
-        const checkbox = localStorage.getItem('filmsSwitchSaved');
-        setFilmsSwitch(checkbox === 'true');
-
         mainApi.getMovies()
             .then((data) => {
                 setFilmsArr(data);
-
             })
             .catch((err) => {
                 openPopup({err}, false);
@@ -58,16 +54,8 @@ function SavedMovies({openPopup}) {
 
     }, [openPopup]);
 
-
-    useEffect(() => {
-        const checkbox = localStorage.getItem('filmsSwitchSaved');
-        setFilmsSwitch(checkbox === 'false');
-    }, [filmsSwitch]);
-
-
     async function handleGetFilmsSwitch() {
         setFilmsSwitch(!filmsSwitch);
-        localStorage.setItem('filmsSwitchSaved', filmsSwitch);
     }
 
     async function handleGetMovies(filmsInputSearch) {
@@ -84,21 +72,30 @@ function SavedMovies({openPopup}) {
             const filmsArray = filmsArr;
             let filmsFilter = filmsArray.filter(({nameRU}) => nameRU.toLowerCase().includes(filmsInputSearch.toLowerCase()));
 
-            setFilmsArr(filmsFilter);
 
-            if (filmsFilter.length == 0) {
+            if (filmsFilter.length > 0 ) {
+                if (filmsSwitch) {
+                    //openPopup('Найдено фильмов: ' + filmsFilter.length, true)
+                }
+
+                if (!filmsSwitch) {
+                    //openPopup('Найдено фильмов: ' + filterShortFilm(filmsFilter).length, true)
+                }
+
+                setFilmsArr(filmsFilter);
+
+            } else {
                 openPopup('Ничего не найдено', false)
+                setFilmsArr(filmsArr);
+                //alert(filmsArr);
             }
 
-            //localStorage.setItem('filmsInputSearchSaved', filmsInputSearch);    //текст запроса,
-            localStorage.setItem('filmsSwitchSaved', filmsSwitch);    //переключатель,
+            //setFilmsArr(filmsFilter);
 
         } catch (err) {
             openPopup(`Во время запроса произошла ошибка.       Попробуйте позже.`, false);
             setFilmsArr([]);
             setError(true);
-            //localStorage.removeItem('filmsSaved');
-            localStorage.removeItem('filmsInputSearchSaved');
         } finally {
             setPreloader(false);
         }
@@ -114,11 +111,9 @@ function SavedMovies({openPopup}) {
             />
 
             {preloader && <Preloader/>}
-
             {!preloader && !error && (
                 <MoviesCardList
                     films={filmsSwitch ? filmsArr : filterShortFilm(filmsArr)}
-                    // films={filmsArr}
                     onBookmarkClick={onBookmarkClick}
                     filmsSaved={filmsSaved}
                 />

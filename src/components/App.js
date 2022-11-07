@@ -71,14 +71,16 @@ function App() {
                     }
                 })
                 .catch((err) => {
-                    setIsOpenPopup(true);
-                    setPopupTitle('error tokenCheck ' + err);
+                    //setIsOpenPopup(true);
+                    //setPopupTitle('error tokenCheck ' + err);
                 });
         };
 
         if (jwt) {
             tokenCheck(jwt);
         }
+
+
     }, [jwt]);
 
 
@@ -122,6 +124,10 @@ function App() {
     const onLoggedOut = () => {
         setLoggedIn(false);
         localStorage.removeItem("jwt");
+
+        localStorage.removeItem('films');
+        localStorage.removeItem('filmsInputSearch');
+        localStorage.removeItem('filmsSwitch');
     };
 
     function openPopup(textError, status) {

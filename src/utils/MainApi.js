@@ -46,6 +46,16 @@ class MainApi {
             .then(this._returnResult);
     };
 
+    getUserInfo() {
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'GET',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+        })
+            .then(this._returnResult);
+    }
+
     sendUserInfo({name, email}) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',

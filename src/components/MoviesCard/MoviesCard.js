@@ -2,11 +2,9 @@ import React, {useEffect, useState} from 'react';
 import './MoviesCard.css';
 import {useLocation} from "react-router-dom";
 
-
 function MoviesCard({film, onBookmarkClick, filmsSaved}) {
     const {pathname} = useLocation();
     const [isAdded, setIsAdded] = useState(false);
-
 
     function calcDurationMins(mins) {
         return `${Math.floor(mins / 60)} ч ${mins % 60} м`;
@@ -36,6 +34,8 @@ function MoviesCard({film, onBookmarkClick, filmsSaved}) {
                 setIsAdded(false);
             }
         }
+
+
     }, [pathname, filmsSaved, film.id]);
 
     return (
