@@ -116,7 +116,8 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-    baseUrl: 'http://localhost:3000',
+    //baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://api.kryukova.students.nomoredomains.icu',
     headers: {
         'Content-Type': 'application/json',
     },
