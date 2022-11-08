@@ -46,7 +46,7 @@ const SearchForm = ({handleGetMovies, filmsInputSearch, handleGetFilmsSwitch, fi
                     <div className="search__toggle">
                         <label className="search__tumbler">
                             <input className="search__checkbox" type="checkbox" onChange={handleSwitchChange} value={switchSearch}  checked={switchSearch} />
-                            <span className="search__slider" />
+                            <span className={`search__slider search__slider${!switchSearch ? '_active' : '_inactive'}`}/>
                         </label>
                         <p className="search__films">Короткометражки</p>
                     </div>
