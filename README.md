@@ -11,3 +11,7 @@ https://api.kryukova.nomoredomains.icu
 
 #IP МВ 
 51.250.30.152
+
+Пул-реквест
+
+https://github.com/natalai2410/movies-explorer-frontend/pull/4
