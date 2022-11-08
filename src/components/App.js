@@ -71,8 +71,8 @@ function App() {
                     }
                 })
                 .catch((err) => {
-                    setIsOpenPopup(true);
-                    setPopupTitle('error tokenCheck ' + err);
+                    //setIsOpenPopup(true);
+                    //setPopupTitle('error tokenCheck ' + err);
                 });
         };
 
