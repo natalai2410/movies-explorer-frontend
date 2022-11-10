@@ -150,7 +150,7 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
             <div className={`page ${showItems ? 'page_background-black' : ''}`}>
                 <div className="page__content">
-                    {pathname === '/movies' || pathname === '/saved-movies' || pathname === '/profile' || pathname === '/landing' ?
+                    {pathname === '/movies' || pathname === '/saved-movies' || pathname === '/profile' || pathname === '/landing' || pathname === '/' ?
                         <Header
                             authOn={loggedIn}
                             showItems={showItems}
@@ -159,6 +159,11 @@ function App() {
 
                     <main>
                         <Switch>
+
+                            <Route exact path="/">
+                                <Main/>
+                            </Route>
+
                             <Route path="/signin">
                                 <Login onLogin={onLogin}/>
                             </Route>
@@ -194,6 +199,7 @@ function App() {
 
 
                             <Route path="/landing"><Main/></Route>
+
 
                             <Route path="*"> <PageNotFound/>
                             </Route>
