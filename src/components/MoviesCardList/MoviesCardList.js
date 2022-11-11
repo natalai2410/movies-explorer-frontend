@@ -2,12 +2,9 @@ import React, {useEffect, useState} from 'react';
 import './MoviesCardList.css';
 import {useLocation} from "react-router-dom";
 import MoviesCard from "../MoviesCard/MoviesCard";
+import {MOBILE_WIDTH, TABLET_WIDTH, DESKTOP_WIDTH } from "../../utils/constants"
 
 function MoviesCardList({films, onBookmarkClick, filmsSaved, isMovieAdded}) {
-
-    const MOBILE_WIDTH = 480;
-    const TABLET_WIDTH = 768;
-    const DESKTOP_WIDTH = 1280;
 
     const {pathname} = useLocation();
 

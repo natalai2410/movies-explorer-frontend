@@ -4,6 +4,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import Preloader from "../Preloader/Preloader";
+import {DURATION} from "../../utils/constants";
 
 
 function Movies({openPopup, isLoading}) {
@@ -17,7 +18,7 @@ function Movies({openPopup, isLoading}) {
 
     const [filmsSwitch, setFilmsSwitch] = useState(true);
 
-    const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration <= 40);
+    const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration <= DURATION);
 
     async function onBookmarkClick(film,isAdded) {
         if (isAdded) {
