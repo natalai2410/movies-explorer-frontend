@@ -128,6 +128,10 @@ function App() {
         localStorage.removeItem('filmsInputSearch');
         localStorage.removeItem('filmsSwitch');
 
+        localStorage.clear();
+        history.push("/");
+        setCurrentUser(null);
+
     };
 
     function openPopup(textError, status) {
