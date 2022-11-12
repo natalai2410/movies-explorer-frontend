@@ -43,16 +43,16 @@ function SavedMovies({openPopup}) {
     }, [deleteClick]);
 
 
-    useEffect(() => {
-        mainApi.getMovies()
-            .then((data) => {
-                setFilmsArr(data);
-            })
-            .catch((err) => {
-                openPopup({err}, false);
-            });
-
-    }, [openPopup]);
+    // useEffect(() => {
+    //     mainApi.getMovies()
+    //         .then((data) => {
+    //             setFilmsArr(data);
+    //         })
+    //         .catch((err) => {
+    //             openPopup({err}, false);
+    //         });
+    //
+    // }, [openPopup]);
 
     async function handleGetFilmsSwitch() {
         setFilmsSwitch(!filmsSwitch);
@@ -76,21 +76,19 @@ function SavedMovies({openPopup}) {
             if ( filmsFilter.length > 0) {
                 if (filmsSwitch) {
                     openPopup('Найдено фильмов: ' + filmsFilter.length, true)
+                    setFilmsArr(filmsFilter);
                 }
 
                 if (!filmsSwitch) {
                     openPopup('Найдено фильмов: ' + filterShortFilm(filmsFilter).length, true)
+                    setFilmsArr(filmsFilter);
                 }
 
-                setFilmsArr(filmsFilter);
 
             } else {
                 openPopup('Ничего не найдено', false)
                 setFilmsArr(filmsArr);
-                //alert(filmsArr);
             }
-
-            //setFilmsArr(filmsFilter);
 
         } catch (err) {
             openPopup(`Во время запроса произошла ошибка.       Попробуйте позже.`, false);
