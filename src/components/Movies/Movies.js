@@ -60,14 +60,31 @@ function Movies({openPopup, isLoading}) {
 
         const localStorageFilms = localStorage.getItem('films');
         const localStorageFilmsInputSearch = localStorage.getItem('filmsInputSearch');
+        const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
 
-        mainApi.getMovies()
-            .then((data) => {
-                setFilmsSaved(data);
-            })
-            .catch((err) => {
-                openPopup({err}, false);
-            });
+
+            mainApi.getMovies()
+                .then((data) => {
+                    setFilmsSaved(data);
+                    localStorage.setItem('filmsSaved', JSON.stringify(data));
+                })
+                .catch((err) => {
+                    openPopup({err}, false);
+                });
+
+        // if (localStorageFilmsSaved) {
+        //     setFilmsSaved(JSON.parse(localStorageFilmsSaved));
+        // }
+        // else {
+        //     mainApi.getMovies()
+        //         .then((data) => {
+        //             setFilmsSaved(data);
+        //             localStorage.setItem('filmsSaved', JSON.stringify(data));
+        //         })
+        //         .catch((err) => {
+        //             openPopup({err}, false);
+        //         });
+        // }
 
         if (localStorageFilms) {
             setFilms(JSON.parse(localStorageFilms));

@@ -58,7 +58,8 @@ function MoviesCardList({films, onBookmarkClick, filmsSaved, isMovieAdded}) {
 
             {!(films == null) ? (
                 (films.length > 0) ? (
-                    <ul className="cards__list">
+                pathname !== '/saved-movies' && (
+                    (<ul className="cards__list">
                         {filmsSplice.map((film) => (
                             <MoviesCard
                                 key={film.id || film.movieId}
@@ -68,9 +69,23 @@ function MoviesCardList({films, onBookmarkClick, filmsSaved, isMovieAdded}) {
                                 isMovieAdded={isMovieAdded}
                             />
                         ))}
-                    </ul>
+                    </ul>))
                 ) : '') : ''}
-
+            {!(films == null) ? (
+                (films.length > 0) ? (
+                    pathname == '/saved-movies' && (
+                        (<ul className="cards__list">
+                            {films.map((film) => (
+                                <MoviesCard
+                                    key={film.id || film.movieId}
+                                    film={film}
+                                    onBookmarkClick={onBookmarkClick}
+                                    filmsSaved={filmsSaved}
+                                    isMovieAdded={isMovieAdded}
+                                />
+                            ))}
+                        </ul>))
+                ) : '') : ''}
             {!(films == null) ? (
                 films.length > 0 && pathname !== '/saved-movies' && (
                     <div className="cards__button-container">
