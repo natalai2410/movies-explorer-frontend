@@ -40,6 +40,9 @@ function Movies({openPopup, isLoading}) {
                 const newSaved = await mainApi.getMovies();
                 setFilmsSaved(newSaved);
 
+
+                localStorage.setItem('filmsSaved', JSON.stringify(newSaved));
+
             } catch {
                 openPopup(`Ошибка добавления фильма!`, false);
             }
@@ -48,6 +51,7 @@ function Movies({openPopup, isLoading}) {
                 await mainApi.deleteMovies(film._id);
                 const newSaved = await mainApi.getMovies();
                 setFilmsSaved(newSaved);
+                localStorage.setItem('filmsSaved', JSON.stringify(newSaved))
             } catch (err) {
                 openPopup(`Ошибка удаления фильма!`, false);
             }
@@ -61,8 +65,14 @@ function Movies({openPopup, isLoading}) {
         const localStorageFilms = localStorage.getItem('films');
         const localStorageFilmsInputSearch = localStorage.getItem('filmsInputSearch');
         const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
+        
 
+        if (localStorageFilmsSaved) {
+            setFilmsSaved(JSON.parse(localStorageFilmsSaved));
+        }
+        else {
 
+            if (localStorageFilmsSaved !== null)
             mainApi.getMovies()
                 .then((data) => {
                     setFilmsSaved(data);
@@ -71,20 +81,7 @@ function Movies({openPopup, isLoading}) {
                 .catch((err) => {
                     openPopup({err}, false);
                 });
-
-        // if (localStorageFilmsSaved) {
-        //     setFilmsSaved(JSON.parse(localStorageFilmsSaved));
-        // }
-        // else {
-        //     mainApi.getMovies()
-        //         .then((data) => {
-        //             setFilmsSaved(data);
-        //             localStorage.setItem('filmsSaved', JSON.stringify(data));
-        //         })
-        //         .catch((err) => {
-        //             openPopup({err}, false);
-        //         });
-        // }
+        }
 
         if (localStorageFilms) {
             setFilms(JSON.parse(localStorageFilms));

@@ -27,32 +27,32 @@ function SavedMovies({openPopup}) {
             setDeleteClick(!deleteClick)
             setFilmsSaved(newSaved);
 
+            localStorage.setItem('filmsSaved', JSON.stringify(newSaved));
+
         } catch (err) {
             openPopup(`Ошибка удаления фильма!`, false);
         }
     }
 
     useEffect(() => {
-        mainApi.getMovies()
-            .then((data) => {
-                setFilmsArr(data);
-            })
-            .catch((err) => {
-                openPopup({err}, false);
-            });
+
+        const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
+
+        if (localStorageFilmsSaved) {
+            setFilmsArr(JSON.parse(localStorageFilmsSaved));
+        }
+
+        else {
+            mainApi.getMovies()
+                .then((data) => {
+                    setFilmsArr(data);
+                })
+                .catch((err) => {
+                    openPopup({err}, false);
+                });
+        }
     }, [deleteClick]);
 
-
-    // useEffect(() => {
-    //     mainApi.getMovies()
-    //         .then((data) => {
-    //             setFilmsArr(data);
-    //         })
-    //         .catch((err) => {
-    //             openPopup({err}, false);
-    //         });
-    //
-    // }, [openPopup]);
 
     async function handleGetFilmsSwitch() {
         setFilmsSwitch(!filmsSwitch);

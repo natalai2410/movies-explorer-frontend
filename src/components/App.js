@@ -127,6 +127,7 @@ function App() {
         localStorage.removeItem('films');
         localStorage.removeItem('filmsInputSearch');
         localStorage.removeItem('filmsSwitch');
+        localStorage.removeItem('filmsSaved');
 
         localStorage.clear();
         history.push("/");
