@@ -5,8 +5,6 @@ import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import Preloader from "../Preloader/Preloader";
 import {DURATION} from "../../utils/constants";
-import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-
 
 function Movies({openPopup, isLoading}) {
 
@@ -37,21 +35,7 @@ function Movies({openPopup, isLoading}) {
         if (localStorageFilmsSaved) {
             setFilmsSaved(JSON.parse(localStorageFilmsSaved));
         }
-        //
-        // if (localStorageFilmsSaved) {
-        //     setFilmsSaved(JSON.parse(localStorageFilmsSaved));
-        // } else {
-        //
-        //     if (localStorageFilmsSaved == null)
-        //         mainApi.getMovies()
-        //             .then((data) => {
-        //                 setFilmsSaved(data);
-        //                 localStorage.setItem('filmsSaved', JSON.stringify(data));
-        //             })
-        //             .catch((err) => {
-        //                 openPopup({err}, false);
-        //             });
-        // }
+
         if (localStorageFilms) {
             setFilms(JSON.parse(localStorageFilms));
             setPreloader(false);
@@ -119,9 +103,9 @@ function Movies({openPopup, isLoading}) {
         } else {
             try {
                 await mainApi.deleteMovies(film._id);
-                    let temp = filmsSaved.filter(obj => obj._id != film._id);
-                    setFilmsSaved(temp);
-                    localStorage.setItem('filmsSaved', JSON.stringify(temp))
+                let temp = filmsSaved.filter(obj => obj._id != film._id);
+                setFilmsSaved(temp);
+                localStorage.setItem('filmsSaved', JSON.stringify(temp))
             } catch (err) {
                 openPopup(`Ошибка удаления фильма!`, false);
             }

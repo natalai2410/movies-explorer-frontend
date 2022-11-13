@@ -9,62 +9,41 @@ import Preloader from "../Preloader/Preloader";
 function SavedMovies({openPopup}) {
     const [filmsArr, setFilmsArr] = useState([]);
     const [filmsInputSearch, setFilmsInputSearch] = useState('');
-    const [filmsSaved, setFilmsSaved] = useState([]);
 
     const [preloader, setPreloader] = useState(false);
     const [error, setError] = useState(false);
 
     const [filmsSwitch, setFilmsSwitch] = useState(true);
 
-    //const [deleteClick, setDeleteClick] = useState(false);
+    const [deleteClick, setDeleteClick] = useState(true);
+
 
     const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration <= 40);
 
-    async function onBookmarkClick(film) {
-        try {
-            await mainApi.deleteMovies(film._id);
-            let temp = filmsSaved.filter(obj => obj._id != film._id);
-            setFilmsSaved(temp);
-            localStorage.setItem('filmsSaved', JSON.stringify(temp))
+    async function onBookmarkClick(film, isAdded) {
+        if (!isAdded) {
+            try {
+                await mainApi.deleteMovies(film._id);
+                debugger;
 
-        } catch (err) {
-            openPopup(`Ошибка удаления фильма!`, false);
+                let temp = filmsArr.filter(obj => obj._id != film._id);
+                setFilmsArr(temp);
+                localStorage.setItem('filmsSaved', JSON.stringify(temp))
+
+            } catch (err) {
+                openPopup(`Ошибка удаления фильма!`, false);
+            }
         }
     }
 
-    // useEffect(() => {
-    //     const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
-    //
-    //     if (localStorageFilmsSaved) {
-    //         setFilmsArr(JSON.parse(localStorageFilmsSaved));
-    //     }
-    //
-    //     else {
-    //         mainApi.getMovies()
-    //             .then((data) => {
-    //                 setFilmsArr(data);
-    //             })
-    //             .catch((err) => {
-    //                 openPopup({err}, false);
-    //             });
-    //     }
-    // }, [filmsSaved]);
+    useEffect(() => {
+        const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
 
+        if (localStorageFilmsSaved) {
+            setFilmsArr(JSON.parse(localStorageFilmsSaved));
+        }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // useEffect(async () => {
-    //     const localStorageFilms = localStorage.getItem('filmsSaved');
-    //     if (localStorageFilms) {
-    //         setFilmsArr(JSON.parse(localStorageFilms));
-    //     } else {
-    //         try {
-    //             const data = await mainApi.getMovies();
-    //             setFilmsArr(data);
-    //         } catch (err) {
-    //             openPopup(`${err}`);
-    //         }
-    //     }
-    // }, [openPopup]);
+    }, [deleteClick]);
 
 
     async function handleGetFilmsSwitch() {
@@ -86,7 +65,7 @@ function SavedMovies({openPopup}) {
             let filmsFilter = filmsArray.filter(({nameRU}) => nameRU.toLowerCase().includes(filmsInputSearch.toLowerCase()));
 
 
-            if ( filmsFilter.length > 0) {
+            if (filmsFilter.length > 0) {
                 if (filmsSwitch) {
                     openPopup('Найдено фильмов: ' + filmsFilter.length, true)
                     setFilmsArr(filmsFilter);
@@ -126,7 +105,7 @@ function SavedMovies({openPopup}) {
                 <MoviesCardList
                     films={filmsSwitch ? filmsArr : filterShortFilm(filmsArr)}
                     onBookmarkClick={onBookmarkClick}
-                    filmsSaved={filmsSaved}
+                    filmsSaved={filmsArr}
                 />
             )}
         </section>
@@ -134,3 +113,4 @@ function SavedMovies({openPopup}) {
 }
 
 export default SavedMovies;
+
