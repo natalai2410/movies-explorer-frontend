@@ -6,6 +6,7 @@ class MainApi {
 
     _returnResult(result) {
         if (result.ok) {
+            //console.log(result);
             return result.json();
         }
         return Promise.reject(`Упс... Что-то пошло не так: ${result.statusText}`);
@@ -46,15 +47,15 @@ class MainApi {
             .then(this._returnResult);
     };
 
-    getUserInfo() {
-        return fetch(`${this._baseUrl}/users/me`, {
-            method: 'GET',
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-        })
-            .then(this._returnResult);
-    }
+    // getUserInfo() {
+    //     return fetch(`${this._baseUrl}/users/me`, {
+    //         method: 'GET',
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    //     })
+    //         .then(this._returnResult);
+    // }
 
     sendUserInfo({name, email}) {
         return fetch(`${this._baseUrl}/users/me`, {
@@ -97,6 +98,7 @@ class MainApi {
             body: JSON.stringify(data),
         })
             .then(result => {
+
             return this._returnResult(result);
         })
     }
@@ -113,11 +115,29 @@ class MainApi {
             return this._returnResult(result);
         })
     }
+
+
+    getUserInfo() {
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        }).then(result => {
+            return this._returnResult(result)});
+    }
+
+
+    updateToken() {
+        this._headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`;
+    }
+
 }
 
 const mainApi = new MainApi({
-    //baseUrl: 'http://localhost:3000',
-    baseUrl: 'https://api.kryukova.nomoredomains.icu',
+    baseUrl: 'http://localhost:3000',
+    //baseUrl: 'https://api.kryukova.nomoredomains.icu',
     headers: {
         'Content-Type': 'application/json',
     },

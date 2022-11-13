@@ -56,7 +56,7 @@ function MoviesCard({film, onBookmarkClick, filmsSaved}) {
                             onClick={handleBookmarkClick}/>
                 )}
             </div>
-            <a className="" href={pathname === '/saved-movies' ? film.trailer : film.trailerLink} target="_blank"
+            <a className="" href={pathname === '/saved-movies' ? film.trailerLink : film.trailer} target="_blank"
                rel="noreferrer">
                 <img className="card__image"
                      src={pathname === '/saved-movies' ? `${film.image}` : `https://api.nomoreparties.co${film.image.url}`}

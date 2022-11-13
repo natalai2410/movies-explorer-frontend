@@ -59,15 +59,29 @@ function App() {
     const [isLoading, setIsLoading] = React.useState(false);
 
 
+    const location = useLocation();
+
     React.useEffect(() => {
+        const path = location.pathname;
+
         const tokenCheck = (jwt) => {
             mainApi.getContent(jwt)
                 .then((res) => {
                     if (res) {
                         setCurrentUser(res);
                         setLoggedIn(true);
-                        history.push('/movies')
+                        history.push(path);
+                    }
 
+                    else
+                    {
+                        setLoggedIn(false);
+                        localStorage.removeItem('films');
+                        localStorage.removeItem('filmsInputSearch');
+                        localStorage.removeItem('filmsSwitch');
+                        localStorage.removeItem('filmsSaved');
+                        localStorage.clear();
+                        setCurrentUser(null);
                     }
                 })
                 .catch((err) => {
@@ -79,43 +93,50 @@ function App() {
         if (jwt) {
             tokenCheck(jwt);
         }
-
-
     }, [jwt]);
 
 
     function onRegister(name, email, password) {
         MainApi.register(name, email, password)
             .then((res) => {
-                setIsOpenPopup(true);
-                setPopupImage(success);
-                setPopupTitle("Вы успешно зарегистрировались");
-                history.push('/signin')
+                if (res) {
+                    setIsOpenPopup(true);
+                    setPopupImage(success);
+                    setPopupTitle("Вы успешно зарегистрировались");
+
+                    onLogin(name, email);
+                }
             })
             .catch((err) => {
+                console.log(err);
                 setIsOpenPopup(true);
                 setPopupImage(fail);
                 setPopupTitle('Ошибка регистрации!');
-            });
+            })
+
     }
+
 
     function onLogin(email, password) {
         MainApi.authorize(email, password)
             .then((res) => {
-                localStorage.setItem("jwt", res.token);
+                if (res) {
+                    localStorage.setItem("jwt", res.token);
 
-                setIsOpenPopup(true);
-                setPopupImage(success);
-                setPopupTitle("Вы успешно авторизовались!");
+                    setIsOpenPopup(true);
+                    setPopupImage(success);
+                    setPopupTitle("Вы успешно авторизовались!");
+                    setLoggedIn(true);
 
-                setLoggedIn(true);
-                history.push('/movies')
+                    MainApi.updateToken();
+
+                    history.push('/movies')
+                }
             })
             .catch((err) => {
-
                 setIsOpenPopup(true);
                 setPopupImage(fail);
-                setPopupTitle('Ошибка авторизации!');
+                setPopupTitle('Ошибка авторизации!' + err);
             });
     };
 
@@ -127,6 +148,11 @@ function App() {
         localStorage.removeItem('films');
         localStorage.removeItem('filmsInputSearch');
         localStorage.removeItem('filmsSwitch');
+        localStorage.removeItem('filmsSaved');
+
+        localStorage.clear();
+        history.push("/");
+        setCurrentUser(null);
 
     };
 
@@ -136,8 +162,7 @@ function App() {
 
         if (status) {
             setPopupImage(success);
-        }
-        else setPopupImage(fail);
+        } else setPopupImage(fail);
     }
 
     function closePopup() {
@@ -150,7 +175,7 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
             <div className={`page ${showItems ? 'page_background-black' : ''}`}>
                 <div className="page__content">
-                    {pathname === '/movies' || pathname === '/saved-movies' || pathname === '/profile' || pathname === '/landing' ?
+                    {pathname === '/movies' || pathname === '/saved-movies' || pathname === '/profile' || pathname === '/landing' || pathname === '/' ?
                         <Header
                             authOn={loggedIn}
                             showItems={showItems}
@@ -159,12 +184,29 @@ function App() {
 
                     <main>
                         <Switch>
+
+                            <Route exact path="/">
+                                <Main/>
+                            </Route>
+
                             <Route path="/signin">
-                                <Login onLogin={onLogin}/>
+                                {/*<Login onLogin={onLogin}/>*/}
+
+                                {() =>
+                                    !loggedIn ? <Login onLogin={onLogin} /> : <Redirect to="/movies" />
+                                }
                             </Route>
 
                             <Route path="/signup">
-                                <Register onRegister={onRegister}/>
+                                {/*<Register onRegister={onRegister}/>*/}
+
+                                {() =>
+                                    !loggedIn ? (
+                                        <Register onRegister={onRegister} />
+                                    ) : (
+                                        <Redirect to="/movies" />
+                                    )
+                                }
                             </Route>
 
 
@@ -172,15 +214,15 @@ function App() {
                                 path="/profile"
                                 loggedIn={loggedIn}
                                 onLoggedOut={onLoggedOut}
-                                component ={Profile}
-                                openPopup = {openPopup}
+                                component={Profile}
+                                openPopup={openPopup}
                             />
 
                             <ProtectedRoute
                                 path="/movies"
                                 loggedIn={loggedIn}
                                 component={Movies}
-                                openPopup = {openPopup}
+                                openPopup={openPopup}
                                 isLoading={isLoading}
                             />
 
@@ -188,12 +230,13 @@ function App() {
                                 path="/saved-movies"
                                 loggedIn={loggedIn}
                                 component={SavedMovies}
-                                openPopup = {openPopup}
+                                openPopup={openPopup}
                                 isLoading={isLoading}
                             />
 
 
                             <Route path="/landing"><Main/></Route>
+
 
                             <Route path="*"> <PageNotFound/>
                             </Route>
