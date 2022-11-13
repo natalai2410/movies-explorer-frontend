@@ -16,42 +16,55 @@ function SavedMovies({openPopup}) {
 
     const [filmsSwitch, setFilmsSwitch] = useState(true);
 
-    const [deleteClick, setDeleteClick,] = useState(false);
+    //const [deleteClick, setDeleteClick] = useState(false);
 
     const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration <= 40);
 
     async function onBookmarkClick(film) {
         try {
             await mainApi.deleteMovies(film._id);
-            const newSaved = await mainApi.getMovies();
-            setDeleteClick(!deleteClick)
-            setFilmsSaved(newSaved);
-
-            localStorage.setItem('filmsSaved', JSON.stringify(newSaved));
+            let temp = filmsSaved.filter(obj => obj._id != film._id);
+            setFilmsSaved(temp);
+            localStorage.setItem('filmsSaved', JSON.stringify(temp))
 
         } catch (err) {
             openPopup(`Ошибка удаления фильма!`, false);
         }
     }
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
+    //
+    //     if (localStorageFilmsSaved) {
+    //         setFilmsArr(JSON.parse(localStorageFilmsSaved));
+    //     }
+    //
+    //     else {
+    //         mainApi.getMovies()
+    //             .then((data) => {
+    //                 setFilmsArr(data);
+    //             })
+    //             .catch((err) => {
+    //                 openPopup({err}, false);
+    //             });
+    //     }
+    // }, [filmsSaved]);
 
-        const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
 
-        if (localStorageFilmsSaved) {
-            setFilmsArr(JSON.parse(localStorageFilmsSaved));
-        }
-
-        else {
-            mainApi.getMovies()
-                .then((data) => {
-                    setFilmsArr(data);
-                })
-                .catch((err) => {
-                    openPopup({err}, false);
-                });
-        }
-    }, [deleteClick]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // useEffect(async () => {
+    //     const localStorageFilms = localStorage.getItem('filmsSaved');
+    //     if (localStorageFilms) {
+    //         setFilmsArr(JSON.parse(localStorageFilms));
+    //     } else {
+    //         try {
+    //             const data = await mainApi.getMovies();
+    //             setFilmsArr(data);
+    //         } catch (err) {
+    //             openPopup(`${err}`);
+    //         }
+    //     }
+    // }, [openPopup]);
 
 
     async function handleGetFilmsSwitch() {

@@ -6,6 +6,7 @@ class MainApi {
 
     _returnResult(result) {
         if (result.ok) {
+            //console.log(result);
             return result.json();
         }
         return Promise.reject(`Упс... Что-то пошло не так: ${result.statusText}`);
@@ -97,6 +98,7 @@ class MainApi {
             body: JSON.stringify(data),
         })
             .then(result => {
+
             return this._returnResult(result);
         })
     }

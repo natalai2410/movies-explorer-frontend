@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import Preloader from "../Preloader/Preloader";
 import {DURATION} from "../../utils/constants";
+import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 
 
 function Movies({openPopup, isLoading}) {
@@ -13,16 +14,86 @@ function Movies({openPopup, isLoading}) {
     const [filmsInputSearch, setFilmsInputSearch] = useState('');
     const [filmsSaved, setFilmsSaved] = useState([]);
 
+
     const [preloader, setPreloader] = useState(false);
     const [error, setError] = useState(false);
 
     const [filmsSwitch, setFilmsSwitch] = useState(true);
 
+    const [bookmarkClick, setBookmarkClick] = useState(false);
+
     const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration <= DURATION);
 
-    async function onBookmarkClick(film,isAdded) {
+
+    useEffect(() => {
+        const checkbox = localStorage.getItem('filmsSwitch');
+        setFilmsSwitch(checkbox === 'true');
+        const localStorageFilms = localStorage.getItem('films');
+        const localStorageFilmsInputSearch = localStorage.getItem('filmsInputSearch');
+        //setFilmsSaved([]);
+
+        const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
+
+        if (localStorageFilmsSaved) {
+            setFilmsSaved(JSON.parse(localStorageFilmsSaved));
+        }
+        //
+        // if (localStorageFilmsSaved) {
+        //     setFilmsSaved(JSON.parse(localStorageFilmsSaved));
+        // } else {
+        //
+        //     if (localStorageFilmsSaved == null)
+        //         mainApi.getMovies()
+        //             .then((data) => {
+        //                 setFilmsSaved(data);
+        //                 localStorage.setItem('filmsSaved', JSON.stringify(data));
+        //             })
+        //             .catch((err) => {
+        //                 openPopup({err}, false);
+        //             });
+        // }
+        if (localStorageFilms) {
+            setFilms(JSON.parse(localStorageFilms));
+            setPreloader(false);
+        }
+        if (localStorageFilmsInputSearch) {
+            setFilmsInputSearch(localStorageFilmsInputSearch);
+        }
+    }, [openPopup]);
+
+    useEffect(() => {
+        const checkbox = localStorage.getItem('filmsSwitch');
+        setFilmsSwitch(checkbox === 'false');
+    }, [filmsSwitch]);
+
+    useEffect(() => {
+        const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
+
+        if (localStorageFilmsSaved) {
+            setFilmsSaved(JSON.parse(localStorageFilmsSaved));
+        }
+
+        if (localStorageFilmsSaved === null)
+            mainApi.getMovies()
+                .then((data) => {
+                    setFilmsSaved(data);
+                    localStorage.setItem('filmsSaved', JSON.stringify(data));
+                })
+                .catch((err) => {
+                    openPopup({err}, false);
+                });
+
+    }, [bookmarkClick]);
+
+
+    async function handleGetFilmsSwitch() {
+        setFilmsSwitch(!filmsSwitch);
+        localStorage.setItem('filmsSwitch', filmsSwitch);
+    }
+
+    async function onBookmarkClick(film, isAdded) {
         if (isAdded) {
-            const jsonFilm = {
+            let jsonFilm = {
                 image: 'https://api.nomoreparties.co' + film.image.url,
                 trailerLink: film.trailerLink,
                 thumbnail: 'https://api.nomoreparties.co' + film.image.url,
@@ -36,12 +107,11 @@ function Movies({openPopup, isLoading}) {
                 nameEN: film.nameEN,
             };
             try {
-                await mainApi.addMovies(jsonFilm);
-                const newSaved = await mainApi.getMovies();
-                setFilmsSaved(newSaved);
-
-
-                localStorage.setItem('filmsSaved', JSON.stringify(newSaved));
+                await mainApi.addMovies(jsonFilm).then((result) => {
+                    setFilmsSaved([filmsSaved.push(result)]);
+                    localStorage.setItem('filmsSaved', JSON.stringify(filmsSaved));
+                    setBookmarkClick(!bookmarkClick);
+                })
 
             } catch {
                 openPopup(`Ошибка добавления фильма!`, false);
@@ -49,61 +119,13 @@ function Movies({openPopup, isLoading}) {
         } else {
             try {
                 await mainApi.deleteMovies(film._id);
-                const newSaved = await mainApi.getMovies();
-                setFilmsSaved(newSaved);
-                localStorage.setItem('filmsSaved', JSON.stringify(newSaved))
+                    let temp = filmsSaved.filter(obj => obj._id != film._id);
+                    setFilmsSaved(temp);
+                    localStorage.setItem('filmsSaved', JSON.stringify(temp))
             } catch (err) {
                 openPopup(`Ошибка удаления фильма!`, false);
             }
         }
-    }
-
-    useEffect(() => {
-        const checkbox = localStorage.getItem('filmsSwitch');
-        setFilmsSwitch(checkbox === 'true');
-
-        const localStorageFilms = localStorage.getItem('films');
-        const localStorageFilmsInputSearch = localStorage.getItem('filmsInputSearch');
-        const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
-        
-
-        if (localStorageFilmsSaved) {
-            setFilmsSaved(JSON.parse(localStorageFilmsSaved));
-        }
-        else {
-
-            if (localStorageFilmsSaved !== null)
-            mainApi.getMovies()
-                .then((data) => {
-                    setFilmsSaved(data);
-                    localStorage.setItem('filmsSaved', JSON.stringify(data));
-                })
-                .catch((err) => {
-                    openPopup({err}, false);
-                });
-        }
-
-        if (localStorageFilms) {
-            setFilms(JSON.parse(localStorageFilms));
-            setPreloader(false);
-        }
-
-        if (localStorageFilmsInputSearch) {
-            setFilmsInputSearch(localStorageFilmsInputSearch);
-        }
-
-    }, [openPopup]);
-
-
-    useEffect(() => {
-        const checkbox = localStorage.getItem('filmsSwitch');
-        setFilmsSwitch(checkbox === 'false');
-    }, [filmsSwitch]);
-
-
-    async function handleGetFilmsSwitch() {
-        setFilmsSwitch(!filmsSwitch);
-        localStorage.setItem('filmsSwitch', filmsSwitch);
     }
 
     async function handleGetMovies(filmsInputSearch) {
@@ -123,7 +145,7 @@ function Movies({openPopup, isLoading}) {
                 nameRU.toLowerCase().includes(filmsInputSearch.toLowerCase()));
 
 
-            if (filmsFilter.length > 0 ) {
+            if (filmsFilter.length > 0) {
                 if (filmsSwitch) {
                     openPopup('Найдено фильмов: ' + filmsFilter.length, true)
                 }
@@ -148,10 +170,9 @@ function Movies({openPopup, isLoading}) {
             localStorage.removeItem('films');
             localStorage.removeItem('filmsInputSearch');
             localStorage.removeItem('filmsSwitch');
+        } finally {
+            setPreloader(false);
         }
-        finally {
-        setPreloader(false);
-    }
     }
 
     return (
@@ -159,13 +180,13 @@ function Movies({openPopup, isLoading}) {
             <SearchForm
                 handleGetMovies={handleGetMovies}
                 filmsInputSearch={filmsInputSearch}
-                handleGetFilmsSwitch = {handleGetFilmsSwitch}
-                filmsSwitch = {filmsSwitch}
+                handleGetFilmsSwitch={handleGetFilmsSwitch}
+                filmsSwitch={filmsSwitch}
             />
 
-            {preloader && <Preloader />}
+            {preloader && <Preloader/>}
 
-            {!preloader && !error && films !== null && filmsSaved !== null  && (
+            {!preloader && !error && films !== null && filmsSaved !== null && (
                 <MoviesCardList
                     films={filmsSwitch ? films : filterShortFilm(films)}
                     onBookmarkClick={onBookmarkClick}

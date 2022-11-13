@@ -72,6 +72,17 @@ function App() {
                         setLoggedIn(true);
                         history.push(path);
                     }
+
+                    else
+                    {
+                        setLoggedIn(false);
+                        localStorage.removeItem('films');
+                        localStorage.removeItem('filmsInputSearch');
+                        localStorage.removeItem('filmsSwitch');
+                        localStorage.removeItem('filmsSaved');
+                        localStorage.clear();
+                        setCurrentUser(null);
+                    }
                 })
                 .catch((err) => {
                     //setIsOpenPopup(true);
@@ -82,7 +93,6 @@ function App() {
         if (jwt) {
             tokenCheck(jwt);
         }
-
     }, [jwt]);
 
 

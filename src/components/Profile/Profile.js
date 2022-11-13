@@ -22,20 +22,19 @@ function Profile({ onLoggedOut , openPopup }) {
         const value = e.target.value;
         setName(value);
 
-        if (value !== lastName && value !=='' && email !=='') {
+        if (value !== lastName && value.length >2  && email !=='') {
             setName(value);
             setActiveButton(true);
         } else {
             setActiveButton(false);
         }
-
     }
 
     function handleEmailChange(e) {
         const value = e.target.value;
         setEmail(value);
 
-        if (value !== lastEmail && value !==''  && name !=='') {
+        if (value !== lastEmail && value !==''  && name.length >2 ) {
             setActiveButton(true);
         } else {
             setActiveButton(false);
