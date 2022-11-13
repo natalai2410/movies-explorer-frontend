@@ -46,15 +46,15 @@ class MainApi {
             .then(this._returnResult);
     };
 
-    getUserInfo() {
-        return fetch(`${this._baseUrl}/users/me`, {
-            method: 'GET',
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-        })
-            .then(this._returnResult);
-    }
+    // getUserInfo() {
+    //     return fetch(`${this._baseUrl}/users/me`, {
+    //         method: 'GET',
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    //     })
+    //         .then(this._returnResult);
+    // }
 
     sendUserInfo({name, email}) {
         return fetch(`${this._baseUrl}/users/me`, {
@@ -113,6 +113,24 @@ class MainApi {
             return this._returnResult(result);
         })
     }
+
+
+    getUserInfo() {
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        }).then(result => {
+            return this._returnResult(result)});
+    }
+
+
+    updateToken() {
+        this._headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`;
+    }
+
 }
 
 const mainApi = new MainApi({
