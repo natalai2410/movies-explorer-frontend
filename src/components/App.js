@@ -77,6 +77,7 @@ function App() {
                     {
                         setLoggedIn(false);
                         localStorage.removeItem('films');
+                        localStorage.removeItem('filmsFilter');
                         localStorage.removeItem('filmsInputSearch');
                         localStorage.removeItem('filmsSwitch');
                         localStorage.removeItem('filmsSaved');
@@ -146,6 +147,7 @@ function App() {
         localStorage.removeItem("jwt");
 
         localStorage.removeItem('films');
+        localStorage.removeItem('filmsFilter');
         localStorage.removeItem('filmsInputSearch');
         localStorage.removeItem('filmsSwitch');
         localStorage.removeItem('filmsSaved');

@@ -26,9 +26,9 @@ function Movies({openPopup, isLoading}) {
     useEffect(() => {
         const checkbox = localStorage.getItem('filmsSwitch');
         setFilmsSwitch(checkbox === 'true');
-        const localStorageFilms = localStorage.getItem('films');
+
+
         const localStorageFilmsInputSearch = localStorage.getItem('filmsInputSearch');
-        //setFilmsSaved([]);
 
         const localStorageFilmsSaved = localStorage.getItem('filmsSaved');
 
@@ -36,10 +36,15 @@ function Movies({openPopup, isLoading}) {
             setFilmsSaved(JSON.parse(localStorageFilmsSaved));
         }
 
+        const localStorageFilms = localStorage.getItem('films');
+        const localStorageFilmsFilter = localStorage.getItem('filmsFilter');
+
         if (localStorageFilms) {
-            setFilms(JSON.parse(localStorageFilms));
+            const filterData = JSON.parse(localStorageFilmsFilter);
+            setFilms(filterData);
             setPreloader(false);
         }
+
         if (localStorageFilmsInputSearch) {
             setFilmsInputSearch(localStorageFilmsInputSearch);
         }
@@ -124,9 +129,26 @@ function Movies({openPopup, isLoading}) {
         setPreloader(true);
 
         try {
-            const filmsArray = await moviesApi.getMovies();
-            let filmsFilter = filmsArray.filter(({nameRU}) =>
-                nameRU.toLowerCase().includes(filmsInputSearch.toLowerCase()));
+
+            const localStorageFilms = localStorage.getItem('films');
+            const localStorageFilmsFilter = localStorage.getItem('filmsFilter');
+            let filmsFilter  = [];
+
+            if (localStorageFilms === null) {
+                const filmsArray = await moviesApi.getMovies();
+                localStorage.setItem('films', JSON.stringify(filmsArray)); // найденные фильмы
+
+                filmsFilter = filmsArray.filter(({nameRU}) =>
+                    nameRU.toLowerCase().includes(filmsInputSearch.toLowerCase()));
+
+                localStorage.setItem('filmsFilter', JSON.stringify(filmsFilter)); // найденные фильмы
+            } else {
+
+                filmsFilter = JSON.parse(localStorageFilms).filter(({nameRU}) =>
+                    nameRU.toLowerCase().includes(filmsInputSearch.toLowerCase()));
+
+                localStorage.setItem('filmsFilter', JSON.stringify(filmsFilter)); // найденные фильмы
+            }
 
 
             if (filmsFilter.length > 0) {
@@ -143,7 +165,7 @@ function Movies({openPopup, isLoading}) {
             }
 
             //текст запроса, найденные фильмы и состояние переключателя короткометражек сохраняются в хранилище
-            localStorage.setItem('films', JSON.stringify(filmsFilter)); // найденные фильмы
+            localStorage.setItem('filmsFilter', JSON.stringify(filmsFilter)); // найденные фильмы
             localStorage.setItem('filmsInputSearch', filmsInputSearch);    //текст запроса,
             localStorage.setItem('filmsSwitch', filmsSwitch);    //переключатель,
 
@@ -152,6 +174,7 @@ function Movies({openPopup, isLoading}) {
             setFilms([]);
             setError(true);
             localStorage.removeItem('films');
+            localStorage.removeItem('filmsFilter');
             localStorage.removeItem('filmsInputSearch');
             localStorage.removeItem('filmsSwitch');
         } finally {
