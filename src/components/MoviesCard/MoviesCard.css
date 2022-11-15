@@ -73,6 +73,11 @@
     object-fit: contain;
 }
 
+@media all and (max-width: 1100px) {
+    .card__text {
+        width: 80%;
+    }
+}
 
 @media all and (max-width: 767px) {
     .card {
@@ -91,5 +96,9 @@
 
     .card__image {
         max-height: 168px;
+    }
+
+    .card__text {
+        width: 80%;
     }
 }
